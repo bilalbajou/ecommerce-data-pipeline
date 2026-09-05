@@ -35,6 +35,7 @@ It strictly follows the sequence: **Extract** -> **Transform** -> **Load** -> **
         task_id='extract_data',
         bash_command=f'{PYTHON_EXECUTABLE} -m src.extract',
         env={**os.environ},
+        cwd='/opt/airflow',
         execution_timeout=timedelta(minutes=15),
         doc_md="Extracts raw data from the external API and saves it locally."
     )
@@ -43,6 +44,7 @@ It strictly follows the sequence: **Extract** -> **Transform** -> **Load** -> **
         task_id='transform_data',
         bash_command=f'{PYTHON_EXECUTABLE} -m src.transform',
         env={**os.environ},
+        cwd='/opt/airflow',
         execution_timeout=timedelta(minutes=10),
         doc_md="Cleanses the raw data, applies business logic, and standardizes formats."
     )
@@ -51,6 +53,7 @@ It strictly follows the sequence: **Extract** -> **Transform** -> **Load** -> **
         task_id='load_data',
         bash_command=f'{PYTHON_EXECUTABLE} -m src.load',
         env={**os.environ},
+        cwd='/opt/airflow',
         execution_timeout=timedelta(minutes=20),
         doc_md="Incrementally upserts the transformed data into the PostgreSQL database."
     )
@@ -59,6 +62,7 @@ It strictly follows the sequence: **Extract** -> **Transform** -> **Load** -> **
         task_id='validate_data',
         bash_command=f'{PYTHON_EXECUTABLE} -m src.validate',
         env={**os.environ},
+        cwd='/opt/airflow',
         execution_timeout=timedelta(minutes=5),
         doc_md="Runs strict data quality constraints against the database as the final gate."
     )
