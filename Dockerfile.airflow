@@ -1,0 +1,22 @@
+FROM apache/airflow:2.8.1-python3.11
+
+USER root
+# Install any system dependencies if needed
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
+         build-essential \
+  && apt-get autoremove -yqq --purge \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+
+USER airflow
+
+# Copy requirements
+COPY requirements.txt /requirements.txt
+
+# Create a separate virtual environment to avoid dependency conflicts with Airflow (like SQLAlchemy)
+# Airflow sets PIP_USER=true by default, which breaks virtualenv installs, so we disable it temporarily.
+RUN ENV_PIP_USER=$PIP_USER && export PIP_USER=false \
+    && python -m venv /opt/airflow/etl_venv \
+    && /opt/airflow/etl_venv/bin/pip install --no-cache-dir -r /requirements.txt \
+    && export PIP_USER=$ENV_PIP_USER

@@ -1,15 +1,23 @@
 # Environments
 .env
+.env.*
+!.env.example
 venv/
 env/
 ENV/
 env.bak/
 venv.bak/
+.python-version
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
+*.egg-info/
+*.egg
+*.whl
+build/
+dist/
 
 # Data and Artifacts
 data/
@@ -17,14 +25,23 @@ data/
 *.json
 *.sqlite
 *.db
+*.log
+logs/
 
-# Docker
-.dockerignore
+# Airflow local runtime (keep dags/, plugins/, Dockerfile.airflow, docker-compose.airflow.yml tracked)
+airflow.cfg
+airflow.db
+airflow-webserver.pid
+airflow_variables.json
 
-# Testing
+# Testing + coverage
 .pytest_cache/
 .coverage
+.coverage.*
+coverage.xml
 htmlcov/
+.tox/
+.nox/
 
 # VS Code / IDEs
 .vscode/
@@ -35,3 +52,9 @@ htmlcov/
 # OS generated files
 .DS_Store
 Thumbs.db
+
+# Jupyter / caches
+.ipynb_checkpoints/
+.mypy_cache/
+.ruff_cache/
+.pytype/

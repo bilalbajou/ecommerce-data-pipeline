@@ -49,7 +49,20 @@ docker compose up --build
 ```
 *Note: The ETL container will automatically wait for the Postgres container to be healthy before executing.*
 
-### 3. Run Locally (Without Docker)
+### 3. Run with Apache Airflow (Docker)
+You can orchestrate this pipeline using Apache Airflow. A separate docker-compose file is provided.
+
+```bash
+# First, ensure the main network and database are running
+docker compose up -d db
+
+# Spin up Airflow (Webserver, Scheduler, Init)
+docker compose -f docker-compose.airflow.yml up --build -d
+```
+Access the Airflow UI at [http://localhost:8080](http://localhost:8080) (Default login: `airflow` / `airflow`).
+Enable and trigger the `ecommerce_daily_etl` DAG.
+
+### 4. Run Locally (Without Docker)
 If you prefer running it on your host machine:
 
 ```powershell
